@@ -57,7 +57,7 @@ async def check_base_url(press_key=True):
                 else:
                     logger.error(f"<lr>Update Detected, Main JS Changed!</lr>")
                     logger.error(f"Main JS (Old): <lr>'{last_actual_js}'</lr> | Old hash: <lr>{last_actual_hash}</lr>")
-                    logger.warning(f"Main JS (New): <lg>'{js}'</lg> | Hash: '<lg>{await get_js_hash(js)}</lg>'")
+                    logger.warning(f"Main JS (New): <lg>'{js}'</lg> | Hash: <lg>{await get_js_hash(js)}</lg>")
                     if press_key:
                         input("Bot updates detected. Contact me to check if it's safe to continue: https://t.me/UglyTalks"
                               "\nPress 'Enter' to stop the bot...")
