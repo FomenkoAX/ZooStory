@@ -83,8 +83,8 @@ def new_animals_list(animal_db, animal_user, balance):
                 [
                     animal['key'] not in [ua['key'] for ua in animal_user],
                     animal['levels'][0]['price'] <= balance,
-                    animal.get('dateStart') is None or datetime.now() > parse_date(animal['dateStart']),
-                    animal.get('dateEnd') is None or datetime.now() < parse_date(animal['dateEnd'])
+                    animal.get('dateStart') is None or datetime.utcnow() > parse_date(animal['dateStart']),
+                    animal.get('dateEnd') is None or datetime.utcnow() < parse_date(animal['dateEnd'])
                 ]
             )
         ],

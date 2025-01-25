@@ -31,9 +31,13 @@ if not exist .env (
 	echo Skipping .env copying
 )
 
-echo Starting the bot...
 :loop
-python main.py
+if "%firstRun%"=="true" (
+    python main.py
+    set firstRun=false
+) else (
+    python main.py -a 1
+)
 echo Restarting the program in 10 seconds...
 timeout /t 10 /nobreak >nul
 goto :loop

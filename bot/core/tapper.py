@@ -663,9 +663,9 @@ class Tapper:
                                 or (task["checkType"] == "checkCode" and task["key"].startswith(("rebus_", "riddle_")))
                                 or (
                                     task["key"].startswith("chest_")
-                                    and datetime.datetime.now() > date_parse(task["dateStart"])
-                                    and datetime.datetime.now() < date_parse(task["dateEnd"])
-                                    and datetime.datetime.now() > date_parse(task["actionTo"])
+                                    and datetime.datetime.utcnow() > date_parse(task["dateStart"])
+                                    and datetime.datetime.utcnow() < date_parse(task["dateEnd"])
+                                    and datetime.datetime.utcnow() > date_parse(task["actionTo"])
                                 )
                             )
                         ]
@@ -687,11 +687,11 @@ class Tapper:
                                 if task["key"].startswith("chest_"):
                                     action_date = date_parse(date=task["actionTo"])
                                     if action_date:
-                                        chest_time = date_unix(date=action_date) - date_unix(date=datetime.datetime.now())
-                                        if chest_time <= sleep_time and settings.CHEST_SLEEP and chest_time > 0:
+                                        chest_time = date_unix(date=action_date) - date_unix(date=datetime.datetime.utcnow())
+                                        if chest_time <= sleep_time and settings.CHEST_SLEEP:
                                             logger.info(f"{self.session_name} | Sleeping <y>{round(chest_time / 60, 1)}</y> min, Until Chest appears...")
                                             await asyncio.sleep(delay=chest_time + 120)
-                                        else:
+                                        if chest_time > sleep_time and settings.CHEST_SLEEP:
                                             continue
                                             
                                 if task.get("checkType") != "fakeCheck":
