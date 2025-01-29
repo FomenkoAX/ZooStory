@@ -28,7 +28,7 @@ from pyrogram.raw import functions
 from bot.config import settings
 
 from bot.utils import logger
-from bot.exceptions import TelegramInvalidSessionException, TelegramProxyError
+from bot.exceptions import TelegramInvalidSessionException, TelegramProxyError, AuthError
 from .headers import headers
 
 from random import randint
@@ -348,8 +348,11 @@ class Tapper:
         }
         
         response = await self.make_request(http_client, 'POST', endpoint="/telegram/auth", json_data=login_json, extra_headers=additional_headers)
+
         if response.get("success", {}) == True:
             return response
+        if response.get("success", {}) == False and response.get("error", {}) == "account has been banned for rules violation":
+            return "ban"
         return None
 
     @error_handler
@@ -569,12 +572,15 @@ class Tapper:
                     
                     # Login
                     login_data = await self.login(http_client, login_json=login_json)
+                    if login_data == "ban":
+                        raise AuthError(f"Account Banned")
+                    
                     if not login_data:
                         logger.error(f"{self.session_name} | Login Failed")
                         logger.info(f"{self.session_name} | Sleep <y>{round(sleep_time / 60, 1)}</y> min")
                         await asyncio.sleep(delay=sleep_time)
                         continue
-                    
+
                     logger.success(f"{self.session_name} | <g>🦒 Login Successful</g>")
                     
                     # User-Data
@@ -792,11 +798,13 @@ class Tapper:
                          
                     logger.info(f"{self.session_name} | Sleep <y>{round(sleep_time / 60, 1)}</y> min")
                     await asyncio.sleep(delay=sleep_time)
-
+                except AuthError as e:
+                    return logger.error(f"{self.session_name} | {e}, Stopped Tapper.")
                 except Exception as error:
                     print(traceback.format_exc())
                     logger.error(f"{self.session_name} | Unknown error: {error}")
                     await asyncio.sleep(delay=3)
+
 
 async def run_tapper(tg_client: Client, user_agent: str, proxy: str | None, first_run: bool):
     try:
