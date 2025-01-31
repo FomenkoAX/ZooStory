@@ -74,7 +74,7 @@ async def process() -> None:
 async def mining_end(start_delay: 0):
     await asyncio.sleep(start_delay)
     current_utc_date = datetime.now(timezone.utc)
-    comparison_date = datetime(2025, 1, 31, tzinfo=timezone.utc)
+    comparison_date = datetime(2025, 2, 1, tzinfo=timezone.utc)
     if current_utc_date < comparison_date:
         return True
     else:
